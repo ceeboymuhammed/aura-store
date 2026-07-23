@@ -1,0 +1,35 @@
+{
+  "sku": "AUR-ACC-005",
+  "name": "Ankara Belt",
+  "slug": "ankara-belt",
+  "category": "accessories",
+  "status": "active",
+  "featured": false,
+  "price": {
+    "selling": 0,
+    "compareAt": 0,
+    "currency": "NGN"
+  },
+  "shortDescription": "",
+  "description": "",
+  "materials": [],
+  "specifications": [],
+  "impacts": [],
+  "story": [],
+  "care": [],
+  "tags": [],
+  "collections": [],
+  "seo": {
+    "title": "",
+    "description": "",
+    "keywords": []
+  },
+  "shipping": {
+    "weight": "",
+    "package": ""
+  },
+  "whatsapp": {
+    "enabled": true,
+    "message": "Hello UpwardEco, I'd like to order the Ankara Belt (AUR-ACC-005)."
+  }
+}
