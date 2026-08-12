@@ -10,7 +10,7 @@ import type { Product } from "@/types/product";
 
 export const getProductBySlug = cache(
   async (slug: string): Promise<Product | null> => {
-    const supabase = createServerSupabaseClient();
+    const supabase = await createServerSupabaseClient();
 
     const { data: product, error } = await supabase
       .from("products")
@@ -90,7 +90,7 @@ export const getProductBySlug = cache(
 /* ---------------------------------------------------------- */
 
 export const getAllProducts = cache(async (): Promise<Product[]> => {
-  const supabase = createServerSupabaseClient();
+  const supabase = await createServerSupabaseClient();
 
   const { data, error } = await supabase
     .from("products")
@@ -112,7 +112,7 @@ export const getAllProducts = cache(async (): Promise<Product[]> => {
 /* ---------------------------------------------------------- */
 
 export const getFeaturedProducts = cache(async (): Promise<Product[]> => {
-  const supabase = createServerSupabaseClient();
+  const supabase = await createServerSupabaseClient();
 
   const { data, error } = await supabase
     .from("products")
@@ -136,7 +136,7 @@ export const getFeaturedProducts = cache(async (): Promise<Product[]> => {
 export async function getProductsByCategory(
   slug: string
 ): Promise<Product[]> {
-  const supabase = createServerSupabaseClient();
+  const supabase = await createServerSupabaseClient();
 
   const { data: category } = await supabase
     .from("categories")
@@ -169,6 +169,7 @@ export async function getProductsByCategory(
 
   return products.filter(Boolean) as Product[];
 }
+
 /* ---------------------------------------------------------- */
 /* Related */
 /* ---------------------------------------------------------- */
@@ -178,7 +179,7 @@ export const getRelatedProducts = cache(
     productId: string,
     limit = 4
   ): Promise<Product[]> => {
-    const supabase = createServerSupabaseClient();
+    const supabase = await createServerSupabaseClient();
 
     const { data } = await supabase
       .from("products")
@@ -196,8 +197,13 @@ export const getRelatedProducts = cache(
     return products.filter(Boolean) as Product[];
   }
 );
+
+/* ---------------------------------------------------------- */
+/* Categories */
+/* ---------------------------------------------------------- */
+
 export async function getCategories(): Promise<Category[]> {
-  const supabase = createServerSupabaseClient();
+  const supabase = await createServerSupabaseClient();
 
   const { data, error } = await supabase
     .from("categories")
@@ -210,10 +216,15 @@ export async function getCategories(): Promise<Category[]> {
 
   return data;
 }
+
+/* ---------------------------------------------------------- */
+/* Search */
+/* ---------------------------------------------------------- */
+
 export async function searchProducts(
   query: string
 ): Promise<Product[]> {
-  const supabase = createServerSupabaseClient();
+  const supabase = await createServerSupabaseClient();
 
   const { data } = await supabase
     .from("products")
