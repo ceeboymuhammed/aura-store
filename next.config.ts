@@ -8,6 +8,16 @@ const nextConfig: NextConfig = {
         hostname: "boocyowagrgdiuaclmnk.supabase.co",
         pathname: "/storage/v1/object/public/**",
       },
+      {
+        protocol: "https",
+        hostname: "aurastore.ng",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "www.aurastore.ng",
+        pathname: "/**",
+      },
     ],
   },
 };

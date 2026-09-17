@@ -214,7 +214,7 @@ export default function Footer() {
   </Link>
 
   <Link
-    href="https://wa.me/2348026521855"
+    href="https://wa.me/2348168184783"
     target="_blank"
     className="hover:text-green-400 transition-colors"
   >

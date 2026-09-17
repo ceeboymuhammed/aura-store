@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Image from "next/image";
 
 import { useCart } from "@/context/CartContext";
@@ -25,6 +26,12 @@ export default function CartDrawer() {
     totalItems,
     totalPrice,
   } = useCart();
+
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const message = encodeURIComponent(`
 Hello UpwardEco,
@@ -72,7 +79,7 @@ Thank you.
             </h2>
 
             <p className="text-sm text-slate-500">
-              {totalItems} item(s)
+              {mounted ? totalItems : 0} item(s)
             </p>
           </div>
 
@@ -85,7 +92,7 @@ Thank you.
         </div>
 
         <div className="flex-1 overflow-y-auto">
-          {items.length === 0 ? (
+          {!mounted || items.length === 0 ? (
             <div className="flex h-full flex-col items-center justify-center px-8 text-center">
               <ShoppingBag className="h-14 w-14 text-slate-300" />
 
@@ -109,6 +116,7 @@ Thank you.
                       src={item.image}
                       alt={item.name}
                       fill
+                      sizes="96px"
                       className="object-cover"
                     />
                   </div>
@@ -170,15 +178,16 @@ Thank you.
             </span>
 
             <span className="text-3xl font-bold">
-              ₦{totalPrice.toLocaleString()}
+              ₦{(mounted ? totalPrice : 0).toLocaleString()}
             </span>
           </div>
 
           <Button
             className="w-full"
+            disabled={!mounted || items.length === 0}
             onClick={() => {
               window.open(
-                `https://wa.me/2348026521855?text=${message}`,
+                `https://wa.me/2348168184783?text=${message}`,
                 "_blank"
               );
 

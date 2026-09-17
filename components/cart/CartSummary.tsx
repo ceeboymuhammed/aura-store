@@ -12,7 +12,7 @@ export default function CartSummary() {
   } = useCart();
 
   function checkout() {
-    const phone = "2348026521855"; // Replace with your WhatsApp number
+    const phone = "2348168184783"; // Replace with your WhatsApp number
 
     const message = `
 *AURA STORE ORDER*

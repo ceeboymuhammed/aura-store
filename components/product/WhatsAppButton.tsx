@@ -11,7 +11,7 @@ interface WhatsAppButtonProps {
   variant?: string;
 }
 
-const PHONE_NUMBER = "2348026521855"; // Replace with your WhatsApp number
+const PHONE_NUMBER = "+2348168184783"; // Replace with your WhatsApp number
 
 export default function WhatsAppButton({
   product,

@@ -54,21 +54,10 @@ export default async function ProductPage({
     notFound();
   }
 
-  // 🎯 Normalized price resolution matching ProductCard
-  const rawProduct = product as any;
-  const activePrice = 
-    rawProduct.discount_price ?? 
-    rawProduct.base_price ?? 
-    product.price ?? 
-    (product.variants && product.variants.length > 0 ? product.variants[0].price : 0);
-
-  const basePrice = rawProduct.base_price ?? product.price;
-
+  // 🎯 Direct Price Normalization matching Supabase products.price
   const normalizedProduct = {
     ...product,
-    price: activePrice,
-    base_price: basePrice,
-    discount_price: rawProduct.discount_price ?? null,
+    price: Number(product.price ?? 0),
   };
 
   const relatedProducts = await getRelatedProducts(

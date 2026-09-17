@@ -1,9 +1,8 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 
 import { Product } from "@/types/product";
-
 import { useCart } from "@/context/CartContext";
 
 import Badge from "@/components/ui/Badge";
@@ -30,41 +29,20 @@ export default function ProductInfo({
 
   const [quantity, setQuantity] = useState(1);
 
-  const [selectedVariant, setSelectedVariant] = useState(
-    product.variants[0]?.variant_value
-  );
-
-  const activeVariant = useMemo(
-    () =>
-      product.variants.find(
-        (v) => v.variant_value === selectedVariant
-      ),
-    [product.variants, selectedVariant]
-  );
-
   const image =
-    product.images.find((img) => img.is_primary) ??
-    product.images[0];
+    product.images?.find((img) => img.is_primary) ??
+    product.images?.[0];
 
-  const price =
-    activeVariant?.price ?? product.price;
+  // 🎯 Direct Price from Supabase products.price
+  const price = Number(product.price ?? 0);
 
   function handleAddToCart() {
     for (let i = 0; i < quantity; i++) {
       addItem({
-        id:
-          activeVariant?.id ??
-          product.id,
-
+        id: product.id,
         slug: product.slug,
-
-        name:
-          activeVariant
-            ? `${product.name} (${activeVariant.variant_value})`
-            : product.name,
-
+        name: product.name,
         price,
-
         image:
           image?.image_url ??
           "/product-placeholder.jpg",
@@ -74,7 +52,6 @@ export default function ProductInfo({
 
   return (
     <div className="lg:sticky lg:top-24">
-
       {product.category && (
         <Badge variant="secondary">
           {product.category.name}
@@ -89,63 +66,25 @@ export default function ProductInfo({
         {product.short_description}
       </p>
 
+      {/* Pricing Block */}
       <div className="mt-8">
-
         <p className="text-sm uppercase tracking-wider text-neutral-500">
           Price
         </p>
 
-        <h2 className="mt-2 text-5xl font-bold text-brand-green">
-          ₦{price.toLocaleString()}
-        </h2>
-
+        <div className="mt-2 flex items-baseline gap-3 flex-wrap">
+          <h2 className="text-4xl sm:text-5xl font-bold text-brand-green">
+            ₦{price.toLocaleString()}
+          </h2>
+        </div>
       </div>
 
-      {product.variants.length > 1 && (
-
-        <div className="mt-10">
-
-          <h3 className="mb-4 font-semibold">
-            {product.variants[0].variant_name}
-          </h3>
-
-          <div className="flex flex-wrap gap-3">
-
-            {product.variants.map((variant) => (
-
-              <button
-                key={variant.id}
-                onClick={() =>
-                  setSelectedVariant(
-                    variant.variant_value
-                  )
-                }
-                className={`rounded-full border px-5 py-2 transition ${
-                  selectedVariant ===
-                  variant.variant_value
-                    ? "border-brand-green bg-brand-green text-white"
-                    : "border-neutral-300"
-                }`}
-              >
-                {variant.variant_value}
-              </button>
-
-            ))}
-
-          </div>
-
-        </div>
-
-      )}
-
       <div className="mt-10">
-
         <h3 className="mb-4 font-semibold">
           Quantity
         </h3>
 
         <div className="flex w-fit items-center rounded-full border border-neutral-300">
-
           <button
             onClick={() =>
               setQuantity((q) =>
@@ -169,13 +108,10 @@ export default function ProductInfo({
           >
             <Plus className="h-4 w-4" />
           </button>
-
         </div>
-
       </div>
 
       <div className="mt-10 space-y-4">
-
         <Button
           onClick={handleAddToCart}
           className="w-full rounded-full py-4 text-lg"
@@ -184,15 +120,12 @@ export default function ProductInfo({
         </Button>
 
         <WhatsAppButton
-          product={product}
+          product={{ ...product, price }}
           quantity={quantity}
-          variant={selectedVariant}
         />
-
       </div>
 
       <div className="mt-12 space-y-5 rounded-3xl border border-neutral-200 bg-neutral-50 p-6">
-
         <div className="flex items-start gap-4">
           <Truck className="mt-1 h-6 w-6 text-brand-green" />
           <div>
@@ -228,17 +161,14 @@ export default function ProductInfo({
             </p>
           </div>
         </div>
-
       </div>
 
       <div className="mt-12">
-
         <h3 className="mb-5 text-xl font-bold">
           Why You'll Love It
         </h3>
 
         <div className="space-y-4">
-
           {[
             "Handcrafted in Abuja",
             "Premium recovered materials",
@@ -254,11 +184,8 @@ export default function ProductInfo({
               <span>{item}</span>
             </div>
           ))}
-
         </div>
-
       </div>
-
     </div>
   );
 }

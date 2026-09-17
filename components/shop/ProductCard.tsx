@@ -29,15 +29,8 @@ export default function ProductCard({
       (img) => !img.is_primary
     ) ?? primary;
 
-  // 🎯 Dynamic Price Resolution (Handles Supabase schema fallbacks)
-  const activePrice = 
-    (product as any).discount_price ?? 
-    (product as any).base_price ?? 
-    product.price ?? 
-    (product.variants && product.variants.length > 0 ? product.variants[0].price : 0);
-
-  const basePrice = (product as any).base_price ?? product.price;
-  const hasDiscount = (product as any).discount_price !== null && (product as any).discount_price !== undefined && (product as any).discount_price < basePrice;
+  // 🎯 Direct Database Price (Reflects Supabase products.price)
+  const price = Number(product.price ?? 0);
 
   return (
     <motion.article
@@ -58,7 +51,7 @@ export default function ProductCard({
                 product.name
               }
               fill
-              sizes="(max-width:768px)33vw, 25vw"
+              sizes="(max-width:768px) 33vw, 25vw"
               className={`object-cover transition-all duration-500 ${
                 secondary && secondary !== primary
                   ? "group-hover:opacity-0"
@@ -71,7 +64,7 @@ export default function ProductCard({
                 src={secondary.image_url}
                 alt={secondary.alt_text ?? product.name}
                 fill
-                sizes="(max-width:768px)33vw, 25vw"
+                sizes="(max-width:768px) 33vw, 25vw"
                 className="object-cover opacity-0 transition-all duration-500 group-hover:opacity-100"
               />
             )}
@@ -115,15 +108,9 @@ export default function ProductCard({
         <div className="flex items-center justify-between mt-1 pt-1 border-t border-slate-100">
           <div>
             <div className="flex items-baseline gap-1 flex-wrap">
-              {/* Clean non-bold price */}
               <span className="text-xs sm:text-base font-medium text-slate-900">
-                ₦{Number(activePrice).toLocaleString()}
+                ₦{price.toLocaleString()}
               </span>
-              {hasDiscount && (
-                <span className="text-[9px] sm:text-xs text-slate-400 line-through">
-                  ₦{Number(basePrice).toLocaleString()}
-                </span>
-              )}
             </div>
           </div>
 

@@ -31,7 +31,7 @@ Please send me payment and delivery information.`
 
   return (
  <a
-  href={`https://wa.me/${2348026521855}?text=${message}`}
+  href={`https://wa.me/${2348168184783}?text=${message}`}
   target="_blank"
   rel="noopener noreferrer"
 >
